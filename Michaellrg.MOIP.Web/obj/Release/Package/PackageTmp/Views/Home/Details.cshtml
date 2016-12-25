@@ -1,0 +1,58 @@
+﻿@model Michaellrg.MOIP.Web.Models.Item
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="c-shop-product-details-2">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="c-product-gallery">
+                <div class="c-product-gallery-content col-lg-8">
+                   
+                        <img src="~/Content/img/@Model.urlImage">
+                    
+
+                </div>
+                <div class="row c-product-gallery-thumbnail">
+                    <div class="col-xs-3 c-product-thumb">
+                       
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="c-product-meta">
+                <div class="c-content-title-1">
+                    <h3 class="c-font-uppercase c-font-bold">@Model.Product</h3>
+                    <div class="c-line-left"></div>
+                </div>
+                <div class="c-product-badge">
+
+                </div>
+                <div class="c-product-review">
+
+                    <div class="c-product-write-review">
+
+                    </div>
+                </div>
+                @{ double d = ((double)Model.Price / 100);}
+               
+                <div class="c-product-price">@String.Format("R$ {0:#,##0.00}", d)</div>
+                <div class="c-product-short-desc"> @Model.Detail</div>
+                <div class="row c-product-variant">
+
+                </div>
+                <div class="c-product-add-cart c-margin-t-20">
+                    <div class="row">
+
+                        <div class="col-sm-12 col-xs-12 c-margin-t-20">
+                            <button class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase" onclick="location.href = '@Url.Action("AddItem", "Checkout",new { id = Model.Id })';">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</div>

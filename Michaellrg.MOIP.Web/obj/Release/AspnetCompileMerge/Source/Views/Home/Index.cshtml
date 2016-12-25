@@ -1,0 +1,40 @@
+﻿@model List<Michaellrg.MOIP.Web.Models.Item>
+@{
+    ViewBag.Title = "Home Page";
+    
+}
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-3 col-sm-6 c-margin-b-20">
+                            <div class="c-content-product-2 c-bg-white c-border">
+                                <div class="c-content-overlay">
+                                    <div class="c-overlay-wrapper">
+                                        <div class="c-overlay-content">
+                                            <a href="@Url.Action("Details", "Home",new { id = item.Id })" class="btn btn-md c-btn-grey-1 c-btn-uppercase c-btn-bold c-btn-border-1x c-btn-square">Explore</a>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="c-bg-img-center c-overlay-object" data-height="height" style="height: 230px; background-image: url('../Content/img/@item.urlImage');"></div>
+                                </div>
+                                <div class="c-info">
+                                    <p class="c-title c-font-16 c-font-slim">@item.Product</p>
+                                    <p class="c-price c-font-14 c-font-slim">
+                                        @{ double d = ((double)@item.Price / 100);}
+                                        @Html.Label(@String.Format("R$ {0:#,##0.00}", d))
+
+                                       
+
+                                    </p>
+                                </div>
+                                <div class="btn-group btn-group-justified" role="group">
+                                   
+                                    <div class="btn-group  c-border-top" role="group">
+                                        <a href="@Url.Action("AddItem", "Checkout",new { id = @item.Id })" class="btn btn-sm c-btn-white c-btn-uppercase c-btn-square c-font-grey-3 c-font-white-hover c-bg-red-2-hover c-btn-product">Cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                                            }
+               

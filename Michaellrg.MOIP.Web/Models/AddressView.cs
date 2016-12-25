@@ -9,7 +9,7 @@ namespace Michaellrg.MOIP.Web.Models
     public class AddressView
     {
         [Required(ErrorMessage = "City Required")]
-        [StringLength(32, MinimumLength = 9, ErrorMessage = "Invalid Character Number")]
+        [StringLength(32, MinimumLength = 3, ErrorMessage = "Invalid Character Number")]
         public string City { get; set; }
 
         [StringLength(42, MinimumLength = 0, ErrorMessage = "Invalid Character Number")]

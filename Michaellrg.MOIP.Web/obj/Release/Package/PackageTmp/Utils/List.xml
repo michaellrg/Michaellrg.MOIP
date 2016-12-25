@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Item>
+    <Id>1</Id>
+    <Product>White shirt</Product>
+    <Detail>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet.
+    </Detail>
+    <urlImage>20.jpg</urlImage>
+    <Price>5000</Price>
+  </Item>
+  <Item>
+    <Id>2</Id>
+    <Product>Winter coat</Product>
+    <Detail>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet.
+    </Detail>
+    <urlImage>10.jpg</urlImage>
+    <Price>10000</Price>
+  </Item>
+<Item>
+  <Id>3</Id>
+    <Product>Gray coat</Product>
+    <Detail>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet.
+    </Detail>
+    <urlImage>22.jpg</urlImage>
+    <Price>7000</Price>
+  </Item>
+<Item>
+  <Id>4</Id>
+    <Product>Yellow shirt</Product>
+    <Detail>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet.
+    </Detail>
+    <urlImage>21.jpg</urlImage>
+    <Price>3000</Price>
+  </Item>
+<Item>
+  <Id>5</Id>
+    <Product>Hooded jacket </Product>
+    <Detail>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet.
+    </Detail>
+    <urlImage>23.jpg</urlImage>
+    <Price>20000</Price>
+  </Item>
+</ArrayOfItem>

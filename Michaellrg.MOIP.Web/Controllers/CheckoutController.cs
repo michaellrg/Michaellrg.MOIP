@@ -6,17 +6,23 @@ using System.Web;
 using System.Web.Mvc;
 using Moip.Net.V2.Model;
 using Slack.Webhooks;
+using Moip.Net.V2;
+using System.Threading.Tasks;
 
 namespace Michaellrg.MOIP.Web.Controllers
 {
-    public class CheckoutController : Controller
+    public class CheckoutController : AsyncController
     {
         //Create Chart
         public static List<Checkout> checklist = new List<Checkout>();
         //Create static MOIP
         public static Cliente cliente = new Cliente();
+        public static Telefone telefone = new Telefone();
         public static Endereco endereco = new Endereco();
-        
+        Documento documento = new Documento();
+        Pedido pedido = new Pedido();
+
+        public static bool coupon = false;
 
 
         // GET: Checkout
@@ -34,6 +40,29 @@ namespace Michaellrg.MOIP.Web.Controllers
 
 
 
+        }
+
+        [HttpPost]
+        public ActionResult Index(string Coupon)
+        {
+
+            //If Coupon = Moip Have Discount and go to Checkout/Customer
+            if (Coupon == "MOIP")
+            {
+                coupon = true;
+                return RedirectToAction("Customer", "Checkout");
+            }
+            else
+            { // If Coupon Have Characteres return to Checkout/Index
+                if (Coupon.Any())
+                {
+                    return View(Coupon);
+                }
+                else
+                {//Else don't have Discount and go to Checkout/Customer
+                    return RedirectToAction("Customer", "Checkout");
+                }
+            }
         }
 
 
@@ -96,6 +125,8 @@ namespace Michaellrg.MOIP.Web.Controllers
             if (ModelState.IsValid)
             {
                 Random random = new Random();
+
+
                 //Insert Data on static variables
                 cliente.OwnId = "CUS-" + random.Next(100000000, 999999999);
                 Session["customer"] = cliente.OwnId;
@@ -103,12 +134,19 @@ namespace Michaellrg.MOIP.Web.Controllers
                 cliente.Email = customer.Email;
                 cliente.CreatedAt = DateTime.Now;
                 cliente.Fullname = customer.BirthDate;
-                cliente.Phone.CountryCode = 55;
-                cliente.Phone.AreaCode = int.Parse(customer.AreaCode);
-                cliente.Phone.Number = int.Parse(customer.NumberPhone);
-                cliente.TaxDocument.Type = Moip.Net.V2.DocumentType.CPF;
-                cliente.TaxDocument.Number = customer.Number;
+                //Insert Phone
+                telefone.CountryCode = 55;
+                telefone.AreaCode = int.Parse(customer.AreaCode);
+                telefone.Number = int.Parse(customer.NumberPhone);
+                //Insert Phone On Customer
+                cliente.Phone = telefone;
+                //Create Tax Document
+                documento.Type = DocumentType.CPF;
+                documento.Number = customer.Number;
+                //Insert TaxDocument on Customer
+                cliente.TaxDocument = documento;
 
+                //Return Action Checkout/Address
                 return RedirectToAction("Address", "Checkout");
             }
             return View(customer);
@@ -119,7 +157,7 @@ namespace Michaellrg.MOIP.Web.Controllers
             if (checklist.Any())
             {
 
-
+                //Return Action Checkout/Index
                 return RedirectToAction("Index", "Checkout");
             }
             else
@@ -140,20 +178,78 @@ namespace Michaellrg.MOIP.Web.Controllers
             if (ModelState.IsValid)
             {
                 //Insert address on static customer
-                cliente.ShippingAddress.City = address.City;
-                cliente.ShippingAddress.Complement = address.Complement;
-                cliente.ShippingAddress.Country = "BRA";
-                cliente.ShippingAddress.District = address.District;
-                cliente.ShippingAddress.State = address.State;
-                cliente.ShippingAddress.Street = address.Street;
-                cliente.ShippingAddress.StreetNumber = address.StreetNumber;
-                cliente.ShippingAddress.ZipCode = address.ZipCode;
-
+                endereco.City = address.City;
+                endereco.Complement = address.Complement;
+                endereco.Country = "BRA";
+                endereco.District = address.District;
+                endereco.State = address.State;
+                endereco.Street = address.Street;
+                endereco.StreetNumber = address.StreetNumber;
+                endereco.ZipCode = address.ZipCode;
+                //Insert Address on Customer
+                cliente.ShippingAddress = endereco;
                 return RedirectToAction("Payment", "Checkout");
             }
             return View(address);
         }
+        public ActionResult Payment()
+        {
 
+            ItemPedido item = new ItemPedido();
+            List<ItemPedido> itemList = new List<ItemPedido>();
+            int total = 0;
+            int discount = 0;
+
+
+            var v2Client = new V2Client(
+            new Uri("https://sandbox.moip.com.br/"),
+            "01010101010101010101010101010101",
+            "ABABABABABABABABABABABABABABABABABABABAB"
+                );
+
+
+            foreach (var product in checklist)
+            {
+                item.Product = product.Product;
+                item.Price = product.Price;
+                item.Detail = product.Detail;
+                item.Quantity = product.quantity;
+                total += (item.Price * item.Quantity);
+                itemList.Add(item);
+            }
+
+            if (coupon == true)
+            {
+                discount = ((total * 5) / 100);
+            }
+
+
+            Random random = new Random();
+            pedido = new Pedido()
+            {
+                OwnId = "ORD-" + random.Next(100000000, 999999999),
+                Amount = new Valores()
+                {
+                    Currency = CurrencyType.BRL,
+                    Subtotals = new Subtotal()
+                    {
+                        Discount = discount,
+                        Shipping = 1000
+                    }
+                },
+                Items = itemList,
+                Customer = cliente
+            };
+
+            pedido.CheckoutPreferences.Installments.Addition = ((total * 25) / 1000);
+            Pagamento pagamento = new Pagamento();
+            pagamento.FundingInstrument.Method = MethodType.ONLINE_DEBIT;
+
+            //v2Client.CriarPagamento();
+            var clienteCriado = v2Client.CriarPedido(pedido);
+            //v2Client.CriarPagamento(clienteCriado.Id,);
+            return null;
+        }
 
     }
 

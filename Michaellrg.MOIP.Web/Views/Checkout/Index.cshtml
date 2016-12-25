@@ -111,15 +111,29 @@
              <div class="col-md-1 col-sm-6 col-xs-6 c-cart-subtotal-border">
                  @{double t = ((double)(total) / 100);}
 
-                 <h3 class="c-font-bold c-font-16">>@String.Format("R$ {0:#,##0.00}", t)</h3>
+                 <h3 class="c-font-bold c-font-16">@String.Format("R$ {0:#,##0.00}", t)</h3>
              </div>
          </div>
      </div>
      <!-- END: SUBTOTAL ITEM ROW -->
+     <div class="col-lg-10 col-sm-10">
+
+     </div>
+     @using (@Html.BeginForm("Index","Checkout",FormMethod.Post)) { 
+     <div class="col-lg-8 col-sm-8">
+         
+     </div>
+     <div class="col-lg-3 col-sm-3">
+         <br />
+         <label>Coupon</label>
+        <input type="text" name="Coupon" />
+         <br />
+     </div> 
      <div class="c-cart-buttons">
          <a href="@Url.Action("Index","Home")" class="btn c-btn btn-lg c-btn-red c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-l">Continue Shopping</a>
-         <a href="#" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r">Checkout</a>
+         <input type="submit" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r" value="Checkout"/>
      </div>
+     }
      <script>
          //Aqui inicia o foreach/for => será repetido a cada linha da tabela.
          //var Id =$(#)

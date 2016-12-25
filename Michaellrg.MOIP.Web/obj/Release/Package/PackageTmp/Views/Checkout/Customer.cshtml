@@ -1,0 +1,90 @@
+﻿@model Michaellrg.MOIP.Web.Models.CustomerView
+@{
+    ViewBag.Title = "Customer";
+}
+<div class="c-shop-cart-page-1">
+@using (Html.BeginForm("Customer", "Checkout", FormMethod.Post))
+{
+    <div class="col-xs-10 col-sm-10">
+        <div class="w100 clearfix">
+            <ul class="orderStep orderStepLook2" >
+                <li class="active">
+                    <a href="#">
+                        <i class="fa fa-user"></i> <span> Customer</span>
+                    </a>
+                </li>
+                                
+                <li>
+                    <a href="#">
+                        <i class="fa fa-map-marker "></i> <span> Address</span>
+                    </a>
+                </li>
+                <!-- <li><a href="checkout-2.html"> <i class="fa fa fa-envelope  "></i>
+                     <span> Billing </span></a></li>
+                 <li><a href="checkout-3.html"><i class="fa fa-truck "> </i><span>Shipping</span> </a></li>-->
+                <li><a href="#"><i class="fa fa-money"> </i><span>Payment</span> </a></li>
+                <li>
+                    <a href="#"> <i class="fa fa-check-square "> </i><span>Order</span></a>
+                </li>
+            </ul>
+            <!--/.orderStep end-->
+        </div>
+
+        <div class="w100 clearfix">
+            <div class="row userInfo">
+                <div class="col-lg-12">
+                    <h2 class="block-title-2">Please fill out the form below. </h2>
+                </div>
+               
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group required">
+                            <label for="InputName">Fullname <sup>*</sup> </label>
+                            @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="InputEmail">Email <sup>*</sup></label>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", htmlAttributes = new { @type = "email" } } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group required">
+                            <label for="BirthDate">BirthDate <sup>*</sup></label>
+                            @Html.EditorFor(model => model.BirthDate, "{0:yyyy/MM/dd}", new { htmlAttributes = new { @class = "form-control default-date-picker", htmlAttributes = new { @type = "date" } } })
+                            @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-lg-5 col-sm-5 required">
+                            <label for="InputName">CPF <sup>*</sup> </label>
+                            @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                            @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-lg-2 col-sm-2 required">
+                            <label for="InputName">Area Code <sup>*</sup> </label>
+                            @Html.EditorFor(model => model.AreaCode, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                            @Html.ValidationMessageFor(model => model.AreaCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-lg-5 col-sm-5 required">
+                            <label for="InputName">Phone Number <sup>*</sup> </label>
+                            @Html.EditorFor(model => model.NumberPhone, new { htmlAttributes = new { @class = "form-control",type="number" } })
+                            @Html.ValidationMessageFor(model => model.NumberPhone, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+               
+            </div>
+            <!--/row end-->
+
+        </div>
+
+    </div>
+   
+    
+        <div class="c-cart-buttons col-lg-12 col-md-12" >
+            <br />
+            <a href="@Url.Action("Index", "Home")"  class="btn c-btn btn-lg c-btn-red c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-l">Continue Shopping</a>
+            <input type="submit" value="Checkout" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r" />
+          
+    </div>
+}</div>

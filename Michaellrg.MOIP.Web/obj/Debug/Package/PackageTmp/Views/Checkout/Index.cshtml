@@ -1,0 +1,151 @@
+﻿@model List<Michaellrg.MOIP.Web.Models.Checkout>
+@{
+    ViewBag.Title = "Checkout";
+}
+
+
+ <div class="c-shop-cart-page-1">
+    <div class="row c-cart-table-title">
+        <div class="col-md-2 c-cart-image">
+            <h3 class="c-font-uppercase c-font-bold c-font-16 c-font-grey-2">Image</h3>
+        </div>
+        <div class="col-md-4 c-cart-desc">
+            <h3 class="c-font-uppercase c-font-bold c-font-16 c-font-grey-2">Description</h3>
+        </div>
+        
+        <div class="col-md-1 c-cart-qty">
+            <h3 class="c-font-uppercase c-font-bold c-font-16 c-font-grey-2">Qty</h3>
+        </div>
+        <div class="col-md-2 c-cart-price">
+            <h3 class="c-font-uppercase c-font-bold c-font-16 c-font-grey-2">Unit Price</h3>
+        </div>
+        <div class="col-md-1 c-cart-total">
+            <h3 class="c-font-uppercase c-font-bold c-font-16 c-font-grey-2">Total</h3>
+        </div>
+        <div class="col-md-1 c-cart-remove"></div>
+    </div>
+     @{ var index = 0; }
+     @{ var total = 0;}
+    
+    @foreach (var item in Model)
+    {
+        <div class="row c-cart-table-row">
+
+            <div class="col-md-2 col-sm-3 col-xs-5 c-cart-image">
+                <img src="~/Content/img/@item.urlImage" class="col-md-12 col-sm-12 col-xs-12" />
+            </div>
+            <div class="col-md-4 col-sm-9 col-xs-7 c-cart-desc">
+                <h3>
+                    <a href="@Url.Action("Details", "Home", new { id = @item.idItem })" class="c-font-bold c-theme-link c-font-22 c-font-dark">@item.Product</a>
+                </h3>
+
+            </div>
+
+            <div class="col-md-1 col-sm-3 col-xs-6 c-cart-qty">
+                <p class="c-cart-sub-title c-theme-font c-font-uppercase c-font-bold">QTY</p>
+                <p class="c-cart-price c-font-bold">@item.quantity</p>
+                <!--<div class="c-input-group c-spinner">
+
+                    
+                    
+                    <input id="@Model[index].quantity" type="text" class="form-control c-item-2@(item.idItem)"  value="@Model[index].quantity">
+                    <div class="c-input-group-btn-vertical">
+                        <button class="btn btn-default" type="button" data_input="c-item-2@(item.idItem)" id="btnUp@(item.idItem)">
+                            <i class="fa fa-caret-up"></i>
+                        </button>
+                        <button class="btn btn-default" type="button" data_input="c-item-2@(item.idItem)" id="btnDown@(item.idItem)">
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                </div>-->
+
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-6 c-cart-price">
+                <p class="c-cart-sub-title c-theme-font c-font-uppercase c-font-bold">Unit Price</p>
+                @{ double d = ((double)@item.Price / 100);}
+                <p class="c-cart-price c-font-bold">@String.Format("R$ {0:#,##0.00}", d)</p>
+            </div>
+            <div class="col-md-1 col-sm-3 col-xs-6 c-cart-total">
+                <p class="c-cart-sub-title c-theme-font c-font-uppercase c-font-bold">Total</p>
+                @{total+=(@item.Price*@item.quantity);}
+                @{ d = ((double)(@item.Price * @item.quantity) / 100);}
+                <p class="c-cart-price c-font-bold">@String.Format("R$ {0:#,##0.00}", d)</p>
+            </div>
+            <div class="col-md-1 col-sm-12 c-cart-remove">
+                <a href="@Url.Action("RemoveItem", "Checkout",new { id= @item.idItem})" class="c-theme-link c-cart-remove-desktop">×</a>
+
+            </div>
+
+        </div>
+                        index++;
+                    }
+     <div class="row">
+         <div class="c-cart-subtotal-row c-margin-t-20">
+             <div class="col-md-2 col-md-offset-9 col-sm-6 col-xs-6 c-cart-subtotal-border">
+                <!-- <h3 class="c-font-uppercase c-font-bold c-right c-font-16 c-font-grey-2">Subtotal</h3>-->
+             </div>
+             <div class="col-md-1 col-sm-6 col-xs-6 c-cart-subtotal-border">
+               <!--  <h3 class="c-font-bold c-font-16">$246.00</h3>-->
+             </div>
+         </div>
+     </div>
+     <!-- END: SUBTOTAL ITEM ROW -->
+     <!-- BEGIN: SUBTOTAL ITEM ROW -->
+     <div class="row">
+         <div class="c-cart-subtotal-row">
+             <div class="col-md-2 col-md-offset-9 col-sm-6 col-xs-6 c-cart-subtotal-border">
+              <!--   <h3 class="c-font-uppercase c-font-bold c-right c-font-16 c-font-grey-2">Shipping Fee</h3>-->
+             </div>
+             <div class="col-md-1 col-sm-6 col-xs-6 c-cart-subtotal-border">
+                 <!--  <h3 class="c-font-bold c-font-16">$15.00</h3>-->
+             </div>
+         </div>
+     </div>
+     <!-- END: SUBTOTAL ITEM ROW -->
+     <!-- BEGIN: SUBTOTAL ITEM ROW -->
+     <div class="row">
+         <div class="c-cart-subtotal-row">
+             <div class="col-md-2 col-md-offset-9 col-sm-6 col-xs-6 c-cart-subtotal-border">
+                 <h3 class="c-font-uppercase c-font-bold c-right c-font-16 c-font-grey-2">Grand Total</h3>
+             </div>
+             <div class="col-md-1 col-sm-6 col-xs-6 c-cart-subtotal-border">
+                 @{double t = ((double)(total) / 100);}
+
+                 <h3 class="c-font-bold c-font-16">>@String.Format("R$ {0:#,##0.00}", t)</h3>
+             </div>
+         </div>
+     </div>
+     <!-- END: SUBTOTAL ITEM ROW -->
+     <div class="c-cart-buttons">
+         <a href="@Url.Action("Index","Home")" class="btn c-btn btn-lg c-btn-red c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-l">Continue Shopping</a>
+         <a href="#" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r">Checkout</a>
+     </div>
+     <script>
+         //Aqui inicia o foreach/for => será repetido a cada linha da tabela.
+         //var Id =$(#)
+
+         var squirrel = {
+             Id: item.id,
+             Quantity:item.quantity
+    
+         };
+			
+         var dataJson = JSON.stringify(squirrel);
+
+         $.ajax({
+             type: 'POST',
+             url: 'Customer',
+             data: { modelo: dataJson },
+             dataType: 'json',
+             success: function (data) {
+
+             },
+             error: function (data) {
+
+                 alert('Error' + data);
+             }
+         });
+         //Aqui termina foreach/for
+     </script>
+     </div>
+
