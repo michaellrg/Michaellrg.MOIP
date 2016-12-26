@@ -19,10 +19,15 @@ namespace Michaellrg.MOIP.Web.Controllers
         public static Cliente cliente = new Cliente();
         public static Telefone telefone = new Telefone();
         public static Endereco endereco = new Endereco();
-        Documento documento = new Documento();
-        Pedido pedido = new Pedido();
-
+        public static Documento documento = new Documento();
+        public static PreferenciasCheckout preferencias = new PreferenciasCheckout();
+        public static Parcelamento parcelamento = new Parcelamento();
+        public static  Pedido pedido = new Pedido();
+        
+        //Validate coupon
         public static bool coupon = false;
+
+     
 
 
         // GET: Checkout
@@ -115,7 +120,18 @@ namespace Michaellrg.MOIP.Web.Controllers
 
         public ActionResult Customer()
         {
+            if (checklist == null) {
 
+                return RedirectToAction("Index","Home"); }
+            if( cliente!= null && endereco!= null)
+            {
+                return RedirectToAction("Payment", "Checkout");
+            }
+            if (cliente != null)
+            {
+                return RedirectToAction("Address", "Checkout");
+            }
+            
             return View();
         }
         [HttpPost]
@@ -168,12 +184,25 @@ namespace Michaellrg.MOIP.Web.Controllers
 
         public ActionResult Address()
         {
+            if (checklist == null)
+            {
+
+                return RedirectToAction("Index", "Home");
+            }
+            if (cliente == null)
+            {
+                return RedirectToAction("Customer", "Checkout");
+            }
+            if (endereco != null)
+            {
+                return RedirectToAction("Payment", "Checkout");
+            }
 
             return View();
         }
         [HttpPost]
         public ActionResult Address(AddressView address)
-        {
+        {  
             //If model is valid
             if (ModelState.IsValid)
             {
@@ -194,6 +223,21 @@ namespace Michaellrg.MOIP.Web.Controllers
         }
         public ActionResult Payment()
         {
+            if (checklist == null)
+            {
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (cliente == null)
+            {
+                return RedirectToAction("Customer", "Checkout");
+            }
+
+            if (endereco == null)
+            {
+                return RedirectToAction("Address", "Checkout");
+            }
 
             ItemPedido item = new ItemPedido();
             List<ItemPedido> itemList = new List<ItemPedido>();
@@ -240,15 +284,16 @@ namespace Michaellrg.MOIP.Web.Controllers
                 Items = itemList,
                 Customer = cliente
             };
-
-            pedido.CheckoutPreferences.Installments.Addition = ((total * 25) / 1000);
+            /*parcelamento.Addition = ((total * 25) / 1000);
+            preferencias.Installments= parcelamento;
+            pedido.CheckoutPreferences = preferencias;
             Pagamento pagamento = new Pagamento();
             pagamento.FundingInstrument.Method = MethodType.ONLINE_DEBIT;
-
+            */
             //v2Client.CriarPagamento();
             var clienteCriado = v2Client.CriarPedido(pedido);
             //v2Client.CriarPagamento(clienteCriado.Id,);
-            return null;
+            return View();
         }
 
     }

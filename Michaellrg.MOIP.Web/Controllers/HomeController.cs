@@ -18,6 +18,7 @@ namespace Michaellrg.MOIP.Web.Controllers
         {
             try
             {
+                
                 var items = new ItemsView();
 
                 List<Item> itemList = items.Load();

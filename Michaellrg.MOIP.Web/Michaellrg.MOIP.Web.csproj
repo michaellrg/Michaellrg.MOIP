@@ -337,6 +337,7 @@
     <Content Include="Views\Checkout\Customer.cshtml" />
     <Content Include="Service References\WebHooks\ConnectedService.json" />
     <Content Include="Views\Checkout\Address.cshtml" />
+    <Content Include="Views\Checkout\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
